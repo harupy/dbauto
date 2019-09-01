@@ -6,18 +6,20 @@
   };
 
   document.addEventListener('keyup', () => {
-    const cellEditing = document.querySelector('div.is-editing div.CodeMirror');
-    if (cellEditing && cellEditing.CodeMirror) {
-      const { CodeMirror: cm } = cellEditing;
+    const activeCell = document.querySelector('div.is-editing div.CodeMirror');
+    if (activeCell && cellEditing.CodeMirror) {
+      const { CodeMirror: cm } = activeCell;
+
+      // set Ctrl-J to trigger autoformat
       cm.options.extraKeys['Ctrl-J'] = async cm => {
-        // TODO: Error handling
+        // TODO: error handling
         const resp = await fetch(
           withParams('https://0.0.0.0:8888/format', { code: cm.getValue() }),
         );
         const data = await resp.json();
         const cur = cm.getCursor();
-        cm.setValue(data.code); // the cursor moves to {line: 0, ch: 0}
-        cm.setCursor(cur); // move the cursor where it was before calling setValue
+        cm.setValue(data.code); // setValue moves the cursor to the document start ({line: 0, ch: 0})
+        cm.setCursor(cur); // restore the cursor position
       };
     }
   });

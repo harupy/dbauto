@@ -4,15 +4,12 @@ from flask_cors import CORS
 import ssl
 import autopep8
 
+# allow this flask app to run over HTTPS
 context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
 context.load_cert_chain('credentials/cert.crt', 'credentials/server_secret.key')
 
 app = Flask(__name__)
 CORS(app)
-
-
-def to_int_if_possible(x):
-  return int(x) if x.isdigit() else x
 
 
 def read_options(path='options.json'):
@@ -24,9 +21,12 @@ def read_options(path='options.json'):
 def format_code():
   old_code = request.args.get('code')
 
+  # TODO: add an option which allows users to select autoformat provider (yapf or autopep8)
+  new_code = autopep8.fix_code(old_code, options=read_options())
+
   # if a cell starts with a function or class, autopep8 inserts two blank lines at the top.
   # "lstrip" here removes these blank lines.
-  new_code = autopep8.fix_code(old_code, options=read_options()).lstrip()
+  new_code = new_code.lstrip()
   return jsonify(code=new_code)
 
 
