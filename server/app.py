@@ -23,10 +23,7 @@ def format_code():
 
   # TODO: add an option which allows users to select autoformat provider (yapf or autopep8)
   new_code = autopep8.fix_code(old_code, options=read_options())
-
-  # if a cell starts with a function or class, autopep8 inserts two blank lines at the top.
-  # "lstrip" here removes these blank lines.
-  new_code = new_code.lstrip()
+  new_code = new_code.strip()
   return jsonify(code=new_code)
 
 
