@@ -7,7 +7,7 @@
 
   document.addEventListener('keyup', () => {
     const activeCell = document.querySelector('div.is-editing div.CodeMirror');
-    if (activeCell && cellEditing.CodeMirror) {
+    if (activeCell && activeCell.CodeMirror) {
       const { CodeMirror: cm } = activeCell;
 
       // set Ctrl-J to trigger autoformat
