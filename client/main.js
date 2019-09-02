@@ -14,7 +14,7 @@
       cm.options.extraKeys['Ctrl-J'] = async cm => {
         // TODO: error handling
         const resp = await fetch(
-          withParams('https://0.0.0.0:8888/format', { code: cm.getValue() }),
+          withParams('https://127.0.0.1:8080/format', { code: cm.getValue() }),
         );
         const data = await resp.json();
         const cur = cm.getCursor();
