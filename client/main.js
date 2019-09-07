@@ -13,9 +13,9 @@
       // set Ctrl-J to trigger autoformat
       cm.options.extraKeys['Ctrl-J'] = async cm => {
         // TODO: error handling
-        const resp = await fetch(
-          withParams('https://127.0.0.1:8080/format', { code: cm.getValue() }),
-        );
+        params = { code: cm.getValue(), indent_size: 2, max_line_length: 100 };
+        const resp = await fetch(withParams('https://pyformatter.com/api/format', params));
+
         const data = await resp.json();
         const cur = cm.getCursor();
         cm.setValue(data.code); // setValue moves the cursor to the document start ({line: 0, ch: 0})
