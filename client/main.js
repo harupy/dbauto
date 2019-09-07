@@ -14,6 +14,8 @@
       cm.options.extraKeys['Ctrl-J'] = async cm => {
         // TODO: error handling
         params = { code: cm.getValue(), indent_size: 2, max_line_length: 100 };
+
+        // add an option to allow users to select use public API or local server
         const resp = await fetch(withParams('https://pyformatter.com/api/format', params));
 
         const data = await resp.json();
